@@ -13,11 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module.exports = {
-    root: {
-        bundleName: "Hello World",
-        bundleDescription: "This bundle prints Hello.",
-        hello: "Hello World"
-    },
-    de: true
-};
+export function parseLayerPath(layerPath) {
+    if (!layerPath || typeof layerPath !== "string") {
+        return undefined;
+    }
+
+    const temp = layerPath.split("/");
+    const layerId = temp[0];
+    const subLayerId = temp[1];
+    if (temp.length > 2) {
+        // eslint-disable-next-line max-len
+        console.warn(
+            `agssearch: Possible illegal layer lookup expression detected` +
+                ` '${layerPath}' parts after ${subLayerId} will be ignored.`
+        );
+    }
+    return {
+        layerId,
+        subLayerId
+    };
+}

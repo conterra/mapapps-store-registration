@@ -1,0 +1,85 @@
+{
+    "name": "dn_storeregistration",
+    "version": "1.0.0-SNAPSHOT",
+    "title": "${bundleName}",
+    "description": "${bundleDescription}",
+    "vendor": "con terra GmbH",
+    "keywords": [
+        "store"
+    ],
+    "icon": {},
+    "license": {},
+    "productName": "devnet-mapapps-store-registration",
+    "dependencies": {
+        "map-widget": "^4.12.0"
+    },
+    "components": [
+        {
+            "name": "StoreFactory",
+            "provides": [
+                "dn_storeregistration.StoreFactory"
+            ],
+            "priority": 1,
+            "references": [
+                {
+                    "name": "_mapWidgetModel",
+                    "providing": "map-widget.MapWidgetModel"
+                }
+            ]
+        },
+        {
+            "name": "AutoStoreRegistration",
+            "enabled": false,
+            "properties": {
+                "useIn": [
+                    "search",
+                    "selection"
+                ]
+            },
+            "references": [
+                {
+                    "name": "_map",
+                    "providing": "map-widget.Map"
+                },
+                {
+                    "name": "_storeFactory",
+                    "providing": "dn_storeregistration.StoreFactory"
+                }
+            ]
+        },
+        {
+            "name": "LayerStore",
+            "impl": "FilterStoreFactory",
+            "componentFactory": true,
+            "properties": {
+                "id": "dn_storeregistration_store",
+                "useIn": [
+                    "search",
+                    "selection"
+                ],
+                "-notifyAboutErrors": false,
+                "-url": "",
+                "-fetchIdProperty": true,
+                "-filterQuery": {},
+                "-filterOptions": {
+                    "suggestContains": true
+                },
+                "-legacyImplementation": false
+            },
+            "references": [
+                {
+                    "name": "_storeFactory",
+                    "providing": "dn_storeregistration.StoreFactory"
+                },
+                {
+                    "name": "_logger",
+                    "providing": "ct.framework.api.LogService"
+                },
+                {
+                    "name": "_mapWidgetModel",
+                    "providing": "map-widget.MapWidgetModel"
+                }
+            ]
+        }
+    ]
+}

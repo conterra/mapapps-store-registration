@@ -22,13 +22,76 @@
             "scalebar",
             "locateme",
             "parameter-url",
-            "search-ui",
-            "locator-store",
             "toc",
-            "sample_helloworld"
+            "agssearch",
+            "selection-ui",
+            "selection-resultcenter",
+            "dn_storeregistration"
         ]
     },
     "bundles": {
+        "dn_storeregistration": {
+            "AutoStoreRegistration": {
+                "componentEnabled": true
+            },
+            "LayerStore": [
+                {
+                    "id": "earthquakes_geojson_store_layer",
+                    "title": "Earthquakes Store GeoJSON Layer",
+                    "description": "Earthquakes of the world",
+                    "layerId": "earthquakes_geojson_layer",
+                    "useIn": [
+                        "selection"
+                    ]
+                },
+                {
+                    "id": "earthquakes_csv_store_layer",
+                    "title": "Earthquakes Store CSV Layer",
+                    "description": "Earthquakes of the world",
+                    "layerId": "earthquakes_csv_layer",
+                    "useIn": [
+                        "selection"
+                    ]
+                },
+                {
+                    "id": "earthquakes_geojson_store_url",
+                    "title": "Earthquakes Store GeoJSON URL",
+                    "description": "Earthquakes of the world",
+                    "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson",
+                    "type": "geojson",
+                    "useIn": [
+                        "selection"
+                    ]
+                },
+                {
+                    "id": "earthquakes_csv_store_url",
+                    "title": "Earthquakes Store CSV URL",
+                    "description": "Earthquakes of the world",
+                    "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv",
+                    "type": "csv",
+                    "useIn": [
+                        "selection"
+                    ]
+                }
+            ]
+        },
+        "agssearch": {
+            "AutoStoreRegistration": {
+                "componentEnabled": true
+            },
+            "AGSStore": [
+                {
+                    "title": "Countries",
+                    "description": "Countries of the world",
+                    "searchAttribute": "placename",
+                    "url": "https://services.conterra.de/arcgis/rest/services/common/grenzen/MapServer/3",
+                    "id": "store01",
+                    "useIn": [
+                        "selection"
+                    ]
+                }
+            ]
+        },
         "banner": {
             "BannerWidget": {
                 "label": "Developer Network",
@@ -56,16 +119,124 @@
                     }
                 ],
                 "map": {
-                    "layers": []
+                    "layers": [
+                        {
+                            "id": "earthquakes_geojson_layer",
+                            "title": "Earthquakes GeoJSON Layer",
+                            "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson",
+                            "type": "GEOJSON",
+                            "objectIdField": "id",
+                            "copyright": "USGS Earthquakes",
+                            "definitionExpression": "mag >= 5",
+                            "fields": [
+                                {
+                                    "name": "mag",
+                                    "alias": "mag",
+                                    "type": "double"
+                                }
+                            ],
+                            "popupTemplate": {
+                                "title": "Earthquake Info",
+                                "content": "Magnitude {mag} {type} hit {place} on {time}",
+                                "fieldInfos": [
+                                    {
+                                        "fieldName": "time",
+                                        "format": {
+                                            "dateFormat": "short-date-short-time"
+                                        }
+                                    }
+                                ]
+                            },
+                            "elevationInfo": {
+                                "mode": "relative-to-ground",
+                                "featureExpressionInfo": {
+                                    "expression": "$feature.mag * 1000"
+                                },
+                                "unit": "meters"
+                            },
+                            "renderer": {
+                                "type": "simple",
+                                "field": "mag",
+                                "symbol": {
+                                    "type": "simple-marker",
+                                    "color": "orange",
+                                    "outline": {
+                                        "color": "white"
+                                    }
+                                },
+                                "visualVariables": [
+                                    {
+                                        "type": "color",
+                                        "field": "mag",
+                                        "stops": [
+                                            {
+                                                "value": 1,
+                                                "color": "#FF9E81"
+                                            },
+                                            {
+                                                "value": 2,
+                                                "color": "#FB8866"
+                                            },
+                                            {
+                                                "value": 3,
+                                                "color": "#F7724D"
+                                            },
+                                            {
+                                                "value": 4,
+                                                "color": "#E44828"
+                                            },
+                                            {
+                                                "value": 6,
+                                                "color": "#BD2414"
+                                            },
+                                            {
+                                                "value": 5,
+                                                "color": "#870A0A"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": "earthquakes_csv_layer",
+                            "title": "Earthquakes CSV Layer",
+                            "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv",
+                            "type": "CSV",
+                            "copyright": "USGS Earthquakes",
+                            "screenSizePerspectiveEnabled": true,
+                            "elevationInfo": {
+                                "mode": "on-the-ground"
+                            },
+                            "renderer": {
+                                "type": "simple",
+                                "symbol": {
+                                    "type": "simple-marker",
+                                    "size": 12,
+                                    "color": [
+                                        238,
+                                        69,
+                                        0,
+                                        0.75
+                                    ],
+                                    "outline": {
+                                        "width": 0.5,
+                                        "color": "white"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "id": "BL",
+                            "title": "Bundesländer",
+                            "url": "https://services.conterra.de/arcgis/rest/services/common/grenzen/FeatureServer/2",
+                            "type": "AGS_FEATURE",
+                            "visible": true
+                        }
+                    ]
                 },
                 "view": {
-                    "viewmode": "2D",
-                    "center": {
-                        "x": 774853,
-                        "y": 6610677,
-                        "spatialReference": 3857
-                    },
-                    "scale": 140000
+                    "viewmode": "2D"
                 }
             }
         },
@@ -79,7 +250,7 @@
         },
         "toc": {
             "Config": {
-                "showBasemaps" : true,
+                "showBasemaps": true,
                 "showLayerLegend": true
             }
         },
@@ -93,8 +264,7 @@
                             "zoomInTool",
                             "zoomOutTool",
                             "compassTool",
-                            "restoreInitialViewTool",
-                            "viewmodeSwitcherTool"
+                            "restoreInitialViewTool"
                         ],
                         "registerWidget": {
                             "widgetRole": "mapview_tools"
@@ -115,11 +285,7 @@
                         "cssClass": "ct-main-app-menu",
                         "tools": [
                             "tocToggleTool",
-                            "printingToggleTool",
-                            "sharelinkTool",
-                            "helloTool",
-                            "IMPRINT_Imprint_CustomInfoTool",
-                            "IMPRINT_Imprint_CustomInfoTool_mobile"
+                            "selection-ui-tool"
                         ],
                         "registerWidget": {
                             "widgetRole": "drawer_button"
