@@ -13,6 +13,7 @@
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
 ///
+
 import Layer from "esri/layers/Layer";
 import GeoJSONLayer from "esri/layers/GeoJSONLayer";
 import CSVLayer from "esri/layers/CSVLayer";
