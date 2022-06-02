@@ -1,6 +1,6 @@
 # dn_storeregistration
 
-The Printing Enhanced Bundle extends the Printing bundle by further capabilities.
+The Store Registration bundle allows to create stores based on additional layers..
 
 ## Usage
 1. First you need to add the bundle dn_storeregistration to your app.
