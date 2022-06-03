@@ -33,7 +33,7 @@ You can create stores by _layerId_ or _url_. Only geojson and csv layer types ar
     "LayerStore": [
         {
             "id": "earthquakes_geojson_store_layer",
-            "title": "Earthquakes Store GeoJSON URL",
+            "title": "Earthquakes Store GeoJSON Layer-ID",
             "description": "Earthquakes of the world",
             "layerId": "earthquakes_geojson_layer",
             "useIn": [
