@@ -1,5 +1,5 @@
 ///
-/// Copyright (C) 2022 con terra GmbH (info@conterra.de)
+/// Copyright (C) 2023 con terra GmbH (info@conterra.de)
 ///
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -592,7 +592,7 @@ function translateSort(sort: SortOptions["sort"]): Partial<Query> | undefined {
         return undefined;
     }
 
-    const orderByFields = sort.map(({attribute, descending}) => attribute + (descending ? " DESC" : " ASC")) ?? [];
+    const orderByFields = sort.map(({attribute, descending}) => String(attribute) + (descending ? " DESC" : " ASC")) ?? [];
     return {orderByFields};
 }
 
@@ -605,7 +605,7 @@ function translateGeometry(defaultEnabled: boolean, geometry: GeometryOptions | 
         result.maxAllowableOffset = geometry.maxAllowableOffset;
     }
     if (geometry?.sr != null) {
-        result.outSpatialReference = geometry.sr as any; // autocast
+        result.outSpatialReference = geometry.sr; // autocast
     }
     return result;
 }
