@@ -36,6 +36,15 @@
             },
             "LayerStore": [
                 {
+                    "id": "kitas_wfs_store_layer",
+                    "title": "Kita Store WFS Layer",
+                    "description": "Kitas in Münster",
+                    "layerId": "kitas_wfs_layer",
+                    "useIn": [
+                        "selection"
+                    ]
+                },
+                {
                     "id": "earthquakes_geojson_store_layer",
                     "title": "Earthquakes Store GeoJSON Layer",
                     "description": "Earthquakes of the world",
@@ -120,6 +129,40 @@
                 ],
                 "map": {
                     "layers": [
+                        {
+                            "id": "kitas_wfs_layer",
+                            "url": "https://www.stadt-muenster.de/ows/mapserv706/kitaserv",
+                            "type": "WFS",
+                            "title": "Kindertagesstätten",
+                            "name": "ms:kitas01",
+                            "visible": true,
+                            "renderer": {
+                                "type": "simple",
+                                "symbol": {
+                                    "type": "web-style",
+                                    "name": "extent-star-gray",
+                                    "styleName": "Esri2DPointSymbolsStyle"
+                                }
+                            },
+                            "popupTemplate": {
+                                "title": "{E_NAME}",
+                                "content": [
+                                    {
+                                        "type": "fields",
+                                        "fieldInfos": [
+                                            {
+                                                "fieldName": "ADRESSE",
+                                                "label": "Anschrift"
+                                            },
+                                            {
+                                                "fieldName": "HOMEPAGE",
+                                                "label": "Webseite"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
                         {
                             "id": "earthquakes_geojson_layer",
                             "title": "Earthquakes GeoJSON Layer",

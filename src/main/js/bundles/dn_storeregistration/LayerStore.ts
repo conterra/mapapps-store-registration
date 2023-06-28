@@ -17,6 +17,7 @@
 import Layer from "esri/layers/Layer";
 import GeoJSONLayer from "esri/layers/GeoJSONLayer";
 import CSVLayer from "esri/layers/CSVLayer";
+import WFSLayer from "esri/layers/WFSLayer";
 import type Field from "esri/layers/support/Field";
 import type Graphic from "esri/Graphic";
 import type Query from "esri/rest/support/Query";
@@ -116,8 +117,8 @@ export class LayerStore implements AsyncStore<Feature, FeatureId> {
 
     private constructor(options: BaseState) {
         const state = (this.#state = Object.assign({initialized: false} as const, options));
-        if (state.layer.type !== "geojson" && state.layer.type !== "csv" ) {
-            throw new Error("agssearch/LayerStore: can only be used with geojson or csv layers");
+        if (state.layer.type !== "geojson" && state.layer.type !== "csv" && state.layer.type !== "wfs") {
+            throw new Error("agssearch/LayerStore: can only be used with geojson, csv or wfs layers");
         }
 
         // Hack to fix private properties in combination with apprt-core/delegate.
@@ -177,6 +178,14 @@ export class LayerStore implements AsyncStore<Feature, FeatureId> {
                 }
                 return LayerStore.forCSVLayer(id, layer as CSVLayer);
             }
+            case "wfs": {
+                if (subLayerId) {
+                    throw new Error(
+                        `agssearch/LayerStore: sublayers are not supported when working with wfs layers`
+                    );
+                }
+                return LayerStore.forWFSLayer(id, layer as WFSLayer);
+            }
             default:
                 throw new Error(`agssearch/LayerStore: layer type '${layer.type}' is not supported`);
         }
@@ -197,6 +206,9 @@ export class LayerStore implements AsyncStore<Feature, FeatureId> {
                 break;
             case "csv":
                 layer = new CSVLayer({url: url});
+                break;
+            case "wfs":
+                layer = new WFSLayer({url: url});
                 break;
             default:
                 layer = new GeoJSONLayer({url: url});
@@ -223,6 +235,17 @@ export class LayerStore implements AsyncStore<Feature, FeatureId> {
      * @param cleanUpLayer True if the layer should be cleaned up by the store.
      */
     static forCSVLayer(id: string | undefined, layer: SimpleQueryableLayer, cleanUpLayer = false): LayerStore {
+        return new LayerStore({id, layer, layerOwned: cleanUpLayer});
+    }
+
+    /**
+     * Creates a new store instance that searches on the provided wfs layer.
+     *
+     * @param id the store's id (optional)
+     * @param layer the wfs layer to use as a data source
+     * @param cleanUpLayer True if the layer should be cleaned up by the store.
+     */
+    static forWFSLayer(id: string | undefined, layer: SimpleQueryableLayer, cleanUpLayer = false): LayerStore {
         return new LayerStore({id, layer, layerOwned: cleanUpLayer});
     }
 
@@ -352,7 +375,7 @@ export class LayerStore implements AsyncStore<Feature, FeatureId> {
         }
         const params = this.#createQueryParams("full", query, options);
         // Fix geojson query errors in resultcenter
-        if (layer.type === "geojson" || layer.type === "csv") {
+        if (layer.type === "geojson" || layer.type === "csv" || layer.type === "wfs") {
             params.num = undefined;
         }
         const {features: items} = await layer.queryFeatures(params, {signal});

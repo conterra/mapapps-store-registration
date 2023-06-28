@@ -20,6 +20,7 @@ import Map from "esri/Map";
 import { AutoStoreRegistration } from "../AutoStoreRegistration";
 import GeoJSONLayer from "esri/layers/GeoJSONLayer";
 import CSVLayer from "esri/layers/CSVLayer";
+import WFSLayer from "esri/layers/WFSLayer";
 
 let autoStoreRegistration;
 let registeredStores = [];
@@ -73,6 +74,16 @@ const getCSVLayer = () => {
     return csvLayer;
 };
 
+const getWFSLayer = () => {
+    const wfsLayer = new WFSLayer({
+        url: "https://www.stadt-muenster.de/ows/mapserv706/kitaserv",
+        name: "ms:kitas01",
+        id: "kitas_wfs"
+    });
+    wfsLayer.load();
+    return wfsLayer;
+};
+
 describe(md.id, function () {
     afterEach(async function () {
         autoStoreRegistration.deactivate();
@@ -101,6 +112,16 @@ describe(md.id, function () {
         await mapReady(map);
 
         assert.deepEqual(registeredStores, ["earthquakes_csv"]);
+    });
+
+    it("expect WFSLayer is registered as store", async function () {
+        const map = new Map({
+            layers: [getWFSLayer()]
+        });
+        createAutoStoreRegistration(map);
+        await mapReady(map);
+
+        assert.deepEqual(registeredStores, ["kitas_wfs"]);
     });
 
     it("expect layer with loadStatus failed is not registered as store", async function () {
@@ -140,7 +161,10 @@ describe(md.id, function () {
         map.layers.add(getGeoJSONLayer());
         await mapReady(map);
 
-        assert.deepEqual(registeredStores, ["earthquakes_csv", "earthquakes_geojson"]);
+        map.layers.add(getWFSLayer());
+        await mapReady(map);
+
+        assert.deepEqual(registeredStores, ["earthquakes_csv", "earthquakes_geojson", "kitas_wfs"]);
     });
 
     it("expect 'definitionExpression' property changes on store if changed on layer", async function () {

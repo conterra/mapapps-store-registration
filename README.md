@@ -1,6 +1,7 @@
 # Store Registration
 
-The Store Registration bundle allows to create stores based on additional layers. Supported layer types are geojson and csv.
+The Store Registration bundle allows to create stores based on additional layers.
+Supported layer types are geojson, csv and wfs.
 
 ## Sample App
 https://demos.conterra.de/mapapps/resources/apps/downloads_store_registration/index.html

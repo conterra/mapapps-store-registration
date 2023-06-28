@@ -252,7 +252,7 @@ function buildStoreId(layer) {
 }
 
 function isAllowedType(layer) {
-    return ["geojson", "csv"].includes(layer.type);
+    return ["geojson", "csv", "wfs"].includes(layer.type);
 }
 
 function isLoading(layer) {
