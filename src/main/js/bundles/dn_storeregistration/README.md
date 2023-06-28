@@ -1,6 +1,7 @@
 # dn_storeregistration
 
-The Store Registration bundle allows to create stores based on additional layers. Supported layer types are geojson and csv.
+The Store Registration bundle allows to create stores based on additional layers.
+Supported layer types are geojson, csv and wfs.
 
 ## Usage
 1. First you need to add the bundle dn_storeregistration to your app.
@@ -18,13 +19,14 @@ The Store Registration bundle allows to create stores based on additional layers
 }
 ```
 
-| Property         | Type    | Possible Values               | Default     | Description                                                  |
-|------------------|---------|-------------------------------|-------------|--------------------------------------------------------------|
-| componentEnabled | Boolean | ```true``` &#124; ```false``` | ```false``` | Enable the AutoStoreRegistration for geojson and csv layers. |
+| Property         | Type    | Possible Values               | Default     | Description                                                       |
+|------------------|---------|-------------------------------|-------------|-------------------------------------------------------------------|
+| componentEnabled | Boolean | ```true``` &#124; ```false``` | ```false``` | Enable the AutoStoreRegistration for geojson, csv and wfs layers. |
 
 ### LayerStore
 
-You can create stores by _layerId_ or _url_. Only geojson and csv layer types are supported.
+You can create stores by _layerId_ or _url_.
+Only geojson, csv and wfs layer types are supported.
 
 #### By _layerId_
 
@@ -46,7 +48,7 @@ You can create stores by _layerId_ or _url_. Only geojson and csv layer types ar
 
 #### By _url_
 
-You need to define the data type (_geojson_ or _csv_)!
+You need to define the data type (_geojson_, _csv_ or _wfs_)!
 
 ```json
 "dn_storeregistration": {
