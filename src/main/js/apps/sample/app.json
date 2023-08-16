@@ -26,6 +26,7 @@
             "agssearch",
             "selection-ui",
             "selection-resultcenter",
+            "search-ui",
             "dn_storeregistration"
         ]
     },
@@ -41,8 +42,10 @@
                     "description": "Kitas in Münster",
                     "layerId": "kitas_wfs_layer",
                     "useIn": [
-                        "selection"
-                    ]
+                        "selection",
+                        "search"
+                    ],
+                    "searchAttribute": "E_NAME"
                 },
                 {
                     "id": "earthquakes_geojson_store_layer",
@@ -50,8 +53,10 @@
                     "description": "Earthquakes of the world",
                     "layerId": "earthquakes_geojson_layer",
                     "useIn": [
-                        "selection"
-                    ]
+                        "selection",
+                        "search"
+                    ],
+                    "searchAttribute": "title"
                 },
                 {
                     "id": "earthquakes_csv_store_layer",
@@ -171,13 +176,6 @@
                             "objectIdField": "id",
                             "copyright": "USGS Earthquakes",
                             "definitionExpression": "mag >= 5",
-                            "fields": [
-                                {
-                                    "name": "mag",
-                                    "alias": "mag",
-                                    "type": "double"
-                                }
-                            ],
                             "popupTemplate": {
                                 "title": "Earthquake Info",
                                 "content": "Magnitude {mag} {type} hit {place} on {time}",

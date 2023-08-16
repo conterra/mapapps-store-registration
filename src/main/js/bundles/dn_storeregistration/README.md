@@ -39,8 +39,10 @@ Only geojson, csv and wfs layer types are supported.
             "description": "Earthquakes of the world",
             "layerId": "earthquakes_geojson_layer",
             "useIn": [
-                "selection"
-            ]
+                "selection",
+                "search"
+            ],
+            "searchAttribute": "title"
         }
     ]
 }
@@ -60,8 +62,10 @@ You need to define the data type (_geojson_, _csv_ or _wfs_)!
             "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson",
             "type": "geojson",
             "useIn": [
-                "selection"
-            ]
+                "selection",
+                "search"
+            ],
+            "searchAttribute": "title"
         }
     ]
 }
