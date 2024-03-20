@@ -1,3 +1,5 @@
+⚠️ This bundle is no longer in active development.
+The functionality of this bundle has been added to map.apps in version 4.18.0.
 # Store Registration
 
 The Store Registration bundle allows to create stores based on additional layers.
